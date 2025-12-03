@@ -18,7 +18,7 @@ def parse_args() -> tuple[int, list[str]]:
     parser.add_argument(
         "--input",
         type=str,
-        default="2025/1/input.txt",
+        default="2025/1/test.txt",
         help="Path to the input file",
     )
 
@@ -26,7 +26,7 @@ def parse_args() -> tuple[int, list[str]]:
 
     try:
         with open(args.input, "r", encoding="utf-8") as file:
-            data = file.readlines()
+            data = [line.strip() for line in file.readlines()]
     except FileNotFoundError:
         print(f"Error: The file '{args.input}' does not exist.")
         sys.exit(1)
@@ -67,7 +67,6 @@ def first_star(data: list[str]) -> None:
     password = 0
     print(f"- The dial starts by pointing at {dial}.")
     for _, line in enumerate(data):
-        line = line.strip()
         dial = turn_dial(int(line[1:]), line[0], dial)
         print(f"- The dial is rotated {line} to point at {dial}.")
         if dial == 0:
@@ -81,10 +80,7 @@ def second_star(data: list[str]) -> None:
     password = 0
     print(f"- The dial starts by pointing at {dial}.")
     for _, line in enumerate(data):
-        line = line.strip()
-        rotation = int(line[1:])
-        direction = line[0]
-        zeros_count, dial = turn_dial_iterative(rotation, direction, dial)
+        zeros_count, dial = turn_dial_iterative(int(line[1:]), line[0], dial)
         text = f"- The dial is rotated {line} to point at {dial}"
         if zeros_count == 1:
             text += f"; during this rotation, it points at zero {zeros_count} time."

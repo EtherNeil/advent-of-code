@@ -25,7 +25,7 @@ def parse_args() -> tuple[int, list[tuple[int, int]]]:
     parser.add_argument(
         "--input",
         type=str,
-        default="2025/2/input.txt",
+        default="2025/2/test.txt",
         help="Path to the input file",
     )
 
@@ -57,11 +57,11 @@ def first_star(data: list[tuple[int, int]]) -> None:
                 invalid_ids.add(number)
         if invalid_ids:
             count_invalid_ids += sum(invalid_ids)
-            string = f"{start}-{end} has {len(invalid_ids)} invalid ID"
+            string = f"- {start}-{end} has {len(invalid_ids)} invalid ID"
             string += "s." if len(invalid_ids) > 1 else "."
             print(string)
         else:
-            print(f"{start}-{end} contains no invalid IDs.")
+            print(f"- {start}-{end} contains no invalid IDs.")
     print(f"Total invalid IDs: {count_invalid_ids}.")
 
 
@@ -81,11 +81,11 @@ def second_star(data: list[tuple[int, int]]) -> None:
                     invalid_ids.add(number)
         if invalid_ids:
             count_invalid_ids += sum(invalid_ids)
-            string = f"{start}-{end} has {len(invalid_ids)} invalid ID"
+            string = f"- {start}-{end} has {len(invalid_ids)} invalid ID"
             string += "s." if len(invalid_ids) > 1 else "."
             print(string)
         else:
-            print(f"{start}-{end} contains no invalid IDs.")
+            print(f"- {start}-{end} contains no invalid IDs.")
     print(f"Total invalid IDs: {count_invalid_ids}.")
 
 
