@@ -65,32 +65,36 @@ def first_star(data: list[str]) -> None:
     """Solve the first star."""
     dial = 50
     password = 0
-    print(f"The dial starts by pointing at {dial}")
+    print(f"- The dial starts by pointing at {dial}.")
     for _, line in enumerate(data):
         line = line.strip()
         dial = turn_dial(int(line[1:]), line[0], dial)
-        print(f"- The dial is rotated {line} to point at {dial}")
+        print(f"- The dial is rotated {line} to point at {dial}.")
         if dial == 0:
             password += 1
-    print(f"Final password : {password}")
+    print(f"Final password: {password}.")
 
 
 def second_star(data: list[str]) -> None:
     """Solve the second star."""
     dial = 50
     password = 0
-    print(f"The dial starts by pointing at {dial}")
+    print(f"- The dial starts by pointing at {dial}.")
     for _, line in enumerate(data):
         line = line.strip()
         rotation = int(line[1:])
         direction = line[0]
         zeros_count, dial = turn_dial_iterative(rotation, direction, dial)
         text = f"- The dial is rotated {line} to point at {dial}"
-        if zeros_count > 0:
-            text += f"; during this rotation, it points at zero {zeros_count} time(s)"
+        if zeros_count == 1:
+            text += f"; during this rotation, it points at zero {zeros_count} time."
+        elif zeros_count > 1:
+            text += f"; during this rotation, it points at zero {zeros_count} times."
+        else:
+            text += "."
         print(text)
         password += zeros_count
-    print(f"Final password : {password}")
+    print(f"Final password: {password}.")
 
 
 if __name__ == "__main__":
