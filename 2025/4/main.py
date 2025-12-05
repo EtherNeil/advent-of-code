@@ -4,7 +4,7 @@ import argparse
 import sys
 
 
-def parse_args() -> tuple[int, list[str]]:
+def parse_args() -> tuple[int, list[list[str]]]:
     """Analyze command line arguments."""
     parser = argparse.ArgumentParser(
         description="Advent of Code 2025 - Day 4: Printing Department"
