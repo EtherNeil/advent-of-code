@@ -50,6 +50,9 @@ def euclidean_distance(
 
 def first_star(points: list[tuple[int, int, int]], iterations: int) -> None:
     """Solve the first star."""
+    size = len(points)
+    result2 = None
+    print(f"Number of points: {size}")
     distances = {}
     print("Calculating distances between points...")
     for _ in range(len(points)):
@@ -60,7 +63,7 @@ def first_star(points: list[tuple[int, int, int]], iterations: int) -> None:
     print(f"Total distances calculated: {len(distances)}")
     circuits: list[set[int]] = []
     print("Building circuits...")
-    for _ in range(iterations):
+    while True:
         distance = min(distances, key=distances.get)
         distances.pop(distance)
         c: list[set[int]] = []
@@ -78,13 +81,20 @@ def first_star(points: list[tuple[int, int, int]], iterations: int) -> None:
             circuits.append(c[0])
         else:
             circuits.append(set([distance[0], distance[1]]))
+        print(f"Circuits formed so far: {len(circuits)}", end="\r")
+        if len(circuits) == 1:
+            print(f"Size of final circuit: {len(circuits[0])} / {size}")
+        if len(circuits) == 1 and len(circuits[0]) == size:
+            result2 = distance[0][0] * distance[1][0] if result2 is None else result2
+            break
     print(f"Total circuits formed: {len(circuits)}")
     circuits.sort(key=len, reverse=True)
     result = 1
-    for circuit in circuits[0:3]:
-        print(circuit)
-        result *= len(circuit)
+    # for circuit in circuits[0:3]:
+    #     print(circuit)
+    #     result *= len(circuit)
     print(f"First star result: {result}")
+    print(f"Second star result: {result2}")
 
 
 def second_star(lines: list[tuple[int, int, int]]) -> None:
