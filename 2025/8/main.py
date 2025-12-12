@@ -19,7 +19,7 @@ def parse_args() -> tuple[int, list[list[str]]]:
     parser.add_argument(
         "--input",
         type=str,
-        default="2025/8/test.txt",
+        default="2025/8/input.txt",
         help="Path to the input file",
     )
 
@@ -48,14 +48,43 @@ def euclidean_distance(
     ) ** 0.5
 
 
-def first_star(lines: list[tuple[int, int, int]]) -> None:
+def first_star(points: list[tuple[int, int, int]], iterations: int) -> None:
     """Solve the first star."""
-    dict_of_distances = {}
-    for _ in range(len(lines)):
-        point = lines.pop(0)
-        for other_point in lines:
-            distance = euclidean_distance(point, other_point)
-            dict_of_distances[(point, other_point)] = distance
+    distances = {}
+    print("Calculating distances between points...")
+    for _ in range(len(points)):
+        point = points.pop(0)
+        for other in points:
+            distance = euclidean_distance(point, other)
+            distances[(point, other)] = distance
+    print(f"Total distances calculated: {len(distances)}")
+    circuits: list[set[int]] = []
+    print("Building circuits...")
+    for _ in range(iterations):
+        distance = min(distances, key=distances.get)
+        distances.pop(distance)
+        c: list[set[int]] = []
+        for circuit in circuits:
+            if distance[0] in circuit or distance[1] in circuit:
+                c.append(circuit)
+        if len(c) == 2:
+            circuits.remove(c[0])
+            circuits.remove(c[1])
+            circuits.append(c[0].union(c[1]))
+        elif len(c) == 1:
+            circuits.remove(c[0])
+            c[0].add(distance[0])
+            c[0].add(distance[1])
+            circuits.append(c[0])
+        else:
+            circuits.append(set([distance[0], distance[1]]))
+    print(f"Total circuits formed: {len(circuits)}")
+    circuits.sort(key=len, reverse=True)
+    result = 1
+    for circuit in circuits[0:3]:
+        print(circuit)
+        result *= len(circuit)
+    print(f"First star result: {result}")
 
 
 def second_star(lines: list[tuple[int, int, int]]) -> None:
@@ -66,6 +95,6 @@ def second_star(lines: list[tuple[int, int, int]]) -> None:
 if __name__ == "__main__":
     star, input_data = parse_args()
     if star == 1:
-        first_star(input_data)
+        first_star(input_data, 1000)
     elif star == 2:
         second_star(input_data)
